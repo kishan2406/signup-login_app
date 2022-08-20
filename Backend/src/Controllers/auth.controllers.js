@@ -1,8 +1,10 @@
 const UserModel = require("../Models/user.models");
 const jwt = require("jsonwebtoken");
 
+require("dotenv").config();
+
 const generateToken = (user) => {
-  return jwt.sign({ user }, "secretKey");
+  return jwt.sign({ user }, process.env.secretKey);
 };
 // var newToken = jwt.sign({user}, "secretKey");
 
@@ -28,12 +30,12 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   try {
     const user = await UserModel.findOne({ email: req.body.email });
-   
+
     // check email is exists or not
     if (!user) {
       return res.status(400).send("Wrong either email or password");
     }
-     
+
     // if email is correct, check password
     const match = user.checkPassword(req.body.password);
 
@@ -45,9 +47,10 @@ const login = async (req, res) => {
     //if password is correct
     const token = generateToken(user);
     return res.status(200).send({ user, token });
-  
-} catch(err) {
-      res.status(400).send({message: err.message})
-}
+
+  } catch (err) {
+    
+    res.status(400).send({ message: err.message });
+  }
 };
 module.exports = { register, login };
