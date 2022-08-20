@@ -13,6 +13,9 @@ app.post("/register",register)
 
 app.post("/login",login)
 
+app.get("/", (req, res)=>{
+    return res.status(200).send("welcome")
+})
 
 
 module.exports = app;
