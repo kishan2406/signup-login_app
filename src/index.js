@@ -5,6 +5,9 @@ const connect = require("./Configs/db")
 const userController = require("./Controllers/user.controllers")
 const {register, login} = require("./Controllers/auth.controllers")
 
+
+require("dotenv").config();
+
 const app = express()
 
 app.use(express.json())
@@ -19,7 +22,7 @@ app.post("/login",login)
 
 
 
-app.listen(5000, async () =>{
+app.listen(process.env.PORT || 5000, async () =>{
      
     try{
          await connect();
